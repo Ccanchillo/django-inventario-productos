@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h3 class="card-title mb-0">🗑️ Eliminar Producto</h3>
+            </div>
+            <div class="card-body text-center">
+                <div class="alert alert-danger">
+                    <h4>⚠️ ¿Estás seguro de que quieres eliminar este producto?</h4>
+                </div>
+                
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5>{{ producto.nombre }}</h5>
+                        <p><strong>Precio:</strong> ${{ producto.precio }}</p>
+                        <p><strong>Stock:</strong> {{ producto.stock }} unidades</p>
+                        <p><strong>Categoría:</strong> {{ producto.categoria.nombre }}</p>
+                        {% if producto.descripcion %}
+                            <p><strong>Descripción:</strong> {{ producto.descripcion }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                        <a href="{% url 'lista_productos' %}" class="btn btn-secondary me-md-2">
+                            ↩️ Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            ✅ Sí, Eliminar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

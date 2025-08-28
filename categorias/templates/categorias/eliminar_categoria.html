@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h3 class="card-title mb-0">🗑️ Eliminar Categoría</h3>
+            </div>
+            <div class="card-body text-center">
+                <div class="alert alert-danger">
+                    <h4>⚠️ ¿Estás seguro de que quieres eliminar esta categoría?</h4>
+                    <p class="mb-0">Esta acción no se puede deshacer</p>
+                </div>
+                
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5>{{ categoria.nombre }}</h5>
+                        {% if categoria.descripcion %}
+                            <p><strong>Descripción:</strong> {{ categoria.descripcion }}</p>
+                        {% endif %}
+                        <p><strong>Productos asociados:</strong> 
+                            <span class="badge bg-primary">{{ categoria.producto_set.count }}</span>
+                        </p>
+                        <p><strong>Creada:</strong> {{ categoria.fecha_creacion|date:"d/m/Y" }}</p>
+                    </div>
+                </div>
+
+                {% if categoria.producto_set.count > 0 %}
+                <div class="alert alert-warning">
+                    <strong>⚠️ Advertencia:</strong> Esta categoría tiene {{ categoria.producto_set.count }} producto(s) asociado(s). 
+                    Si la eliminas, estos productos quedarán sin categoría.
+                </div>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                        <a href="{% url 'lista_categorias' %}" class="btn btn-secondary me-md-2">
+                            ↩️ Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            ✅ Sí, Eliminar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

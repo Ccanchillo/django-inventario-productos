@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h3 class="card-title mb-0">👀 Detalles del Producto</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% if producto.imagen %}
+                    <div class="col-md-4 mb-3">
+                        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" 
+                             class="img-fluid rounded" style="max-height: 300px;">
+                    </div>
+                    {% endif %}
+                    
+                    <div class="col-md-{% if producto.imagen %}8{% else %}12{% endif %}">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>📦 Nombre:</strong> {{ producto.nombre }}</p>
+                                <p><strong>💰 Precio:</strong> ${{ producto.precio }}</p>
+                                <p><strong>📊 Stock:</strong> 
+                                    <span class="badge {% if producto.stock > 10 %}bg-success{% elif producto.stock > 0 %}bg-warning{% else %}bg-danger{% endif %}">
+                                        {{ producto.stock }} unidades
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>🏷️ Categoría:</strong> {{ producto.categoria.nombre }}</p>
+                                <p><strong>📅 Creado:</strong> {{ producto.fecha_creacion|date:"d/m/Y H:i" }}</p>
+                                <p><strong>🔄 Actualizado:</strong> {{ producto.fecha_actualizacion|date:"d/m/Y H:i" }}</p>
+                            </div>
+                        </div>
+                        
+                        {% if producto.descripcion %}
+                        <div class="mt-3">
+                            <strong>📝 Descripción:</strong>
+                            <p class="text-muted">{{ producto.descripcion }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                    <a href="{% url 'lista_productos' %}" class="btn btn-secondary me-md-2">
+                        ↩️ Volver a la lista
+                    </a>
+                    <a href="{% url 'editar_producto' producto.id %}" class="btn btn-warning me-md-2">
+                        ✏️ Editar
+                    </a>
+                    <a href="{% url 'eliminar_producto' producto.id %}" class="btn btn-danger">
+                        🗑️ Eliminar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
